@@ -119,6 +119,8 @@ static struct gpio_callback callback_down;
 static struct gpio_callback callback_left;
 static struct gpio_callback callback_right;
 static struct gpio_callback callback_button;
+static struct k_work stick_work;
+static volatile int32_t stick_message;
 
 static const struct bt_audio_codec_cap codec_cap = BT_AUDIO_CODEC_CAP_LC3(
 	BT_AUDIO_CODEC_CAP_FREQ_16KHZ | BT_AUDIO_CODEC_CAP_FREQ_24KHZ,
@@ -197,7 +199,11 @@ static void button0_pressed(const struct device *port, struct gpio_callback *cal
 	ARG_UNUSED(port);
 	ARG_UNUSED(callback);
 	ARG_UNUSED(pins);
-
+	if (gpio_is_ready_dt(&stick_up)) {
+		LOG_INF("Stick up button is ready");
+	} else {
+		LOG_ERR("Stick up button is not ready");
+	}
 	k_work_submit(&button0_work);
 }
 
@@ -1285,33 +1291,54 @@ static uint32_t select_bis_sync_bitfield(struct base_data *base_sg_data,
 static void stick_callback(const struct device *port,
 								struct gpio_callback *cb,
 								uint32_t pins) {
+	bool recognized = true;
+
 	ARG_UNUSED(port);
 	ARG_UNUSED(cb);
 
 	switch (pins) {
 		case 16: // Pin P1.04: Button pressed
-			send_int_message(16);
+			stick_message = 16;
 			break;
 		case 64: // Pin P1.06: Stick down
-			send_int_message(2);
+			stick_message = 2;
 			break;
 		case 32: // Pin P1.05: Stick up
-			send_int_message(1);
+			stick_message = 1;
 			break;
 		case 128: // Pin P1.07: Stick left
-			send_int_message(4);
+			stick_message = 4;
 			break;
 		case 256: // Pin P1.08: Stick right
-			send_int_message(8);
+			stick_message = 8;
 			break;
 		default:
+			recognized = false;
 			break;
 	}
-	
+
+	if (recognized) {
+		k_work_submit(&stick_work);
+	}
+}
+
+static void stick_work_handler(struct k_work *work)
+{
+	int err;
+
+	ARG_UNUSED(work);
+
+	err = send_int_message(stick_message);
+	if (err != 0) {
+		LOG_ERR("Failed to send stick message: %d", err);
+	}
 }
 
 static int configure_joystick(void) {
 	int err;
+
+	k_work_init(&stick_work, stick_work_handler);
+
 	if (gpio_is_ready_dt(&stick_up)) {
 		
 		err = gpio_pin_configure_dt(&stick_up, GPIO_INPUT);
