@@ -199,11 +199,7 @@ static void button0_pressed(const struct device *port, struct gpio_callback *cal
 	ARG_UNUSED(port);
 	ARG_UNUSED(callback);
 	ARG_UNUSED(pins);
-	if (gpio_is_ready_dt(&stick_up)) {
-		LOG_INF("Stick up button is ready");
-	} else {
-		LOG_ERR("Stick up button is not ready");
-	}
+
 	k_work_submit(&button0_work);
 }
 
@@ -1364,7 +1360,7 @@ static int configure_joystick(void) {
 			return -1;
 		}
 	} else {
-		LOG_INF("Stick up %s is not ready", stick_up.port->name);
+		LOG_ERR("Stick up %s is not ready", stick_up.port->name);
 		return -1;
 	}
 
@@ -1391,7 +1387,7 @@ static int configure_joystick(void) {
 			return -1;
 		}
 	} else {
-		LOG_INF("Stick down %s is not ready", stick_down.port->name);
+		LOG_ERR("Stick down %s is not ready", stick_down.port->name);
 		return -1;
 	}
 
@@ -1418,7 +1414,7 @@ static int configure_joystick(void) {
 			return -1;
 		}
 	} else {
-		LOG_INF("Stick left %s is not ready", stick_left.port->name);
+		LOG_ERR("Stick left %s is not ready", stick_left.port->name);
 		return -1;
 	}
 
@@ -1445,7 +1441,7 @@ static int configure_joystick(void) {
 			return -1;
 		}
 	} else {
-		LOG_INF("Stick right %s is not ready", stick_right.port->name);
+		LOG_ERR("Stick right %s is not ready", stick_right.port->name);
 		return -1;
 	}
 
@@ -1472,7 +1468,7 @@ static int configure_joystick(void) {
 			//return -1;
 		}
 	} else {
-		LOG_INF("Button %s is not ready", stick_button.port->name);
+		LOG_ERR("Button %s is not ready", stick_button.port->name);
 		return -1;
 	}
 
