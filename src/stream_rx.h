@@ -3,8 +3,8 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  */
-#ifndef SAMPLE_BAP_BROADCAST_SINK_STREAM_RX_H
-#define SAMPLE_BAP_BROADCAST_SINK_STREAM_RX_H
+#ifndef BT_JOYSTICK_ADAPTER_STREAM_RX_H
+#define BT_JOYSTICK_ADAPTER_STREAM_RX_H
 
 #include <stddef.h>
 #include <stdint.h>
@@ -88,4 +88,4 @@ int stream_rx_stopped(struct bt_bap_stream *bap_stream);
 void stream_rx_get_streams(
 	struct bt_bap_stream *bap_streams[CONFIG_BT_BAP_BROADCAST_SNK_STREAM_COUNT]);
 
-#endif /* SAMPLE_BAP_BROADCAST_SINK_STREAM_RX_H */
+#endif /* BT_JOYSTICK_ADAPTER_STREAM_RX_H */

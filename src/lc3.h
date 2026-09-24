@@ -8,8 +8,8 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  */
-#ifndef SAMPLE_BAP_BROADCAST_SINK_LC3_H
-#define SAMPLE_BAP_BROADCAST_SINK_LC3_H
+#ifndef BT_JOYSTICK_ADAPTER_LC3_H
+#define BT_JOYSTICK_ADAPTER_LC3_H
 
 #include <stdbool.h>
 #include <stddef.h>
@@ -82,4 +82,4 @@ void lc3_enqueue_for_decoding(struct stream_rx *stream, const struct bt_iso_recv
  * @retval -EALREADY Already initialized
  */
 int lc3_init(void);
-#endif /* SAMPLE_BAP_BROADCAST_SINK_LC3_H */
+#endif /* BT_JOYSTICK_ADAPTER_LC3_H */

@@ -9,8 +9,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-#ifndef SAMPLE_BAP_BROADCAST_SINK_USB_H
-#define SAMPLE_BAP_BROADCAST_SINK_USB_H
+#ifndef BT_JOYSTICK_ADAPTER_USB_H
+#define BT_JOYSTICK_ADAPTER_USB_H
 #include <stdbool.h>
 #include <stddef.h>
 #include <stdint.h>
@@ -68,4 +68,4 @@ void usb_clear_frames_to_usb(void);
  */
 int usb_init(void);
 
-#endif /* SAMPLE_BAP_BROADCAST_SINK_USB_H */
+#endif /* BT_JOYSTICK_ADAPTER_USB_H */
